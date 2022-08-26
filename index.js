@@ -16,21 +16,21 @@ server.post('/sign-up', (req, res) => {
 });
 
 server.post('/tweets', (req, res) => {
-  let newTweet = req.body;
-  const newTweetUser = users.find(value => value.username === newTweet.username);
-  newTweet = { ...newTweet, avatar: newTweetUser.avatar };
-  tweets.push(newTweet);
+  tweets.push(req.body);
   res.send('ok');
 });
 
 server.get('/tweets', (req, res) => {
+
   const lastTweets = [];
 
   for (let i = tweets.length - 1; i >= (tweets.length - 10); i--) {
     if (i < 0) {
       break;
     }
-    lastTweets.push(tweets[i]);
+    const newTweetUser = users.find(value => tweets[i].username === value.username);
+    const newTweet = { ...tweets[i], avatar: newTweetUser.avatar };
+    lastTweets.push(newTweet);
   }
   res.send(lastTweets);
 });
