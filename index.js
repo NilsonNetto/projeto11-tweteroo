@@ -1,46 +1,25 @@
 import express from 'express';
 import cors from 'cors';
-import { format } from 'path';
 
 const server = express();
+const port = 5000;
+
 server.use(cors());
+server.use(express.json());
 
-const tweets = [{
-  username: "bobesponja",
-  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-  tweet: "eu amo o hub"
-},
-{
-  username: "bobesponja",
-  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-  tweet: "eu amo o hub1"
-},
-{
-  username: "bobesponja",
-  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-  tweet: "eu amo o hub2"
-},
-{
-  username: "bobesponja",
-  avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-  tweet: "eu amo o hub3"
-}];
-
-const users = [
-  {
-    username: "bobesponja",
-    avatar: "https://super.abril.com.br/wp-content/uploads/2020/09/04-09_gato_SITE.jpg?quality=70&strip=info",
-  }
-];
+const tweets = [];
+const users = [];
 
 server.post('/sign-up', (req, res) => {
-
+  users.push(req.body);
   res.send('ok');
 });
 
-
 server.post('/tweets', (req, res) => {
-
+  let newTweet = req.body;
+  const newTweetUser = users.find(value => value.username === newTweet.username);
+  newTweet = { ...newTweet, avatar: newTweetUser.avatar };
+  tweets.push(newTweet);
   res.send('ok');
 });
 
@@ -57,8 +36,6 @@ server.get('/tweets', (req, res) => {
 });
 
 
-
-
-server.listen(5000, () => {
-  console.log('listen on 5000');
+server.listen(port, () => {
+  console.log(`Listen on ${port}`);
 });
