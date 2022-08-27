@@ -51,6 +51,10 @@ server.get('/tweets/:username', (req, res) => {
   const requestedUser = req.params.username;
   const requestedAvatar = users.find(value => value.username === requestedUser);
   let requestedTweets = [];
+  if (!requestedAvatar) {
+    return res.status(400).send("Usuário não encontrado");
+  }
+
 
   requestedTweets = tweets.filter(tweet => tweet.username === requestedUser);
   requestedTweets.forEach(value => value.avatar = requestedAvatar.avatar);
