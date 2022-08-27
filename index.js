@@ -47,6 +47,17 @@ server.get('/tweets', (req, res) => {
   res.send(lastTweets);
 });
 
+server.get('/tweets/:username', (req, res) => {
+  const requestedUser = req.params.username;
+  console.log(requestedUser);
+  let requestedTweets = [];
+
+  requestedTweets = tweets.filter(tweet => tweet.username === requestedUser);
+  console.log(requestedTweets);
+
+  res.send(requestedTweets);
+});
+
 
 server.listen(port, () => {
   console.log(`Listen on ${port}`);
