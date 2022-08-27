@@ -49,11 +49,11 @@ server.get('/tweets', (req, res) => {
 
 server.get('/tweets/:username', (req, res) => {
   const requestedUser = req.params.username;
-  console.log(requestedUser);
+  const requestedAvatar = users.find(value => value.username === requestedUser);
   let requestedTweets = [];
 
   requestedTweets = tweets.filter(tweet => tweet.username === requestedUser);
-  console.log(requestedTweets);
+  requestedTweets.forEach(value => value.avatar = requestedAvatar.avatar);
 
   res.send(requestedTweets);
 });
