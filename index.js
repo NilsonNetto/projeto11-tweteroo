@@ -11,13 +11,25 @@ const tweets = [];
 const users = [];
 
 server.post('/sign-up', (req, res) => {
+  const { username, avatar } = req.body;
+
+  if (!username || !avatar) {
+    return res.status(400).send('Todos os campos são obrigatórios');
+  }
   users.push(req.body);
-  res.send('ok');
+  res.status(201).send('ok');
 });
 
 server.post('/tweets', (req, res) => {
-  tweets.push(req.body);
-  res.send('ok');
+  const username = req.headers.user;
+  const { tweet } = req.body;
+
+  if (!username || !tweet) {
+    return res.status(400).send('Todos os campos são obrigatórios');
+  }
+
+  tweets.push({ username, tweet });
+  res.status(201).send('ok');
 });
 
 server.get('/tweets', (req, res) => {
